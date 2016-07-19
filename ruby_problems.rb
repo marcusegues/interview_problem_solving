@@ -173,9 +173,11 @@ def sumArrayPairs(arr, value)
 end
 
 def move_zeros(arr)
-  # O(n) time complexity
-  # O(1) space complexity
-  # maintains the initial ordering of the elements (excluding zeros)
+  """
+  O(n) time complexity
+  O(1) space complexity
+  maintains the initial ordering of the elements (excluding zeros)
+  """
   i = 0
   offset = 0
   while (i < arr.length)
@@ -196,6 +198,12 @@ def move_zeros(arr)
 end
 
 def look_and_say(arr)
+  """
+  'Look and say' takes an input array and outputs an array
+  that describes the count of the elements in the input array
+  as they appear in order.
+  ex: look_and_say([1, 2, 1, 1]) == [[1, 1], [1, 2], [2, 1]]
+  """
   return [] if arr.empty?
   output = [[0, arr.first]]
 
@@ -210,10 +218,12 @@ def look_and_say(arr)
 end
 
 def missing_element(arr)
-  # arr contains n unique elements from 0 to n
-  # there is one missing, find it
-  # O(n) time complexity because of the sum of the elements of the array
-  # O(1) space complexity
+  """
+  arr contains n unique elements from 0 to n
+  there is one missing, find it
+  O(n) time complexity because of the sum of the elements of the array
+  O(1) space complexity
+  """
   n = arr.length
   sum = n * (n + 1) / 2
   arr_sum = arr.inject(:+)
@@ -221,43 +231,6 @@ def missing_element(arr)
   sum - arr_sum
 end
 
-class MaxStack
-  def initialize
-    @stack = []
-  end
-
-  def push(el)
-    new_max = @stack.empty? ? el :
-              el > max ? el : max
-    @stack.push([el, new_max])
-  end
-
-  def pop
-    @stack.pop.first
-  end
-
-  def max
-    @stack.last[1]
-  end
-end
-
-class StackQueue
-  def initialize
-    @in, @out = [], []
-  end
-
-  def enqueue(value)
-    @in << value
-  end
-
-  def dequeue
-    if @out.empty?
-      @out << @in.pop until @in.empty?
-    end
-
-    @out.pop
-  end
-end
 
 
 
