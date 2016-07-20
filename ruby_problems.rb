@@ -231,7 +231,151 @@ def missing_element(arr)
   sum - arr_sum
 end
 
+def hash_dictionary(dir_hash)
+  file_paths = []
 
+  dir_hash.each do |k,v|
+    if v == true
+      file_paths << k
+    else
+      file_paths.concat(hash_dictionary(v).map { |str| "#{k}/" + str })
+    end
+  end
+  file_paths
+end
+
+def find_missing_number(arr1, arr2)
+  """
+  Assume an array of non-negative integers. A second array is formed
+  by shuffling the elements of the first array and deleting a random
+  element. Given these two arrays, find which element is missing in the
+  second array.
+  Time complexity: O(n)
+  Space complexity: O(1)
+  """
+  arr1.inject(:+) - arr2.inject(:+)
+end
+
+def is_shuffle?(str1, str2, str3)
+  """
+  Given three strings, return whether the third is an interleaving of the
+  first two. Interleaving means it only contains characters from the other
+  two, no more no less, and preserves their character ordering.
+  'abdecf' is an interleaving of 'abc' and 'def'. Note that the first two
+  strings needn't be in alphabetical order like these.
+  Assume that the first two strings do not contain any characters in common.
+  Time complexity: O(n) where n is the length of the third string
+  Space complexity: O(1)
+  """
+  return false unless str3.length == str1.length + str2.length
+  i, j, k = 0, 0, 0
+  while k < str3.length
+    if str1[i] == str3[k]
+      i += 1
+    elsif str2[j] == str3[k]
+      j += 1
+    else
+      return false
+    end
+    k += 1
+  end
+  true
+end
+
+def binary1(int)
+  bin = ""
+  factor = 2;
+  while int > 0
+    rem = int % factor
+    rem > 0 ? bin << "1" : bin << "0";
+    int -= rem
+    factor *= 2
+  end
+  bin.reverse
+end
+
+def binary(int)
+  bin = []
+  while int > 0
+    bin << int % 2
+    int /= 2
+  end
+  bin.reverse.join
+end
+
+def subsets(arr)
+  """
+  Time complexity: O(2^n)
+  Space complexity: O(2^n)
+  """
+  return [[]] if arr.empty?
+  subs = subsets(arr[0..-2])
+  subs.concat(subs.map { |el| el + [arr[-1]] })
+end
+
+def pseudo_substrings(str)
+  """
+  Generates all pseudo substrings using a call to subsets
+  Iterates over each subset, mapping each subset to a pseudo substring
+  Substrings have length n/2 on average, so a size O(n) iteration takes place for
+  each of O(2^n) substrings
+  Time complexity: O(n*2^n)
+  Space complexity: O(2^n)
+  """
+  psub_idxs = subsets((0...str.length).to_a)
+  psubs = []
+  psub_idxs.each do |idx_list|
+    psubs << idx_list.map { |idx| str[idx]}.join
+  end
+  psubs
+end
+
+def lexic_compare(str1, str2)
+  str1.length.times do |i|
+    next if str1[i] == str2[i]
+    return 1 if str2[i].nil? || str1[i] > str2[i]
+    return -1
+  end
+  return -1 if str2.length > str1.length
+end
+
+def lexic_greatest_psubs(str)
+  """
+  Given a string str, find the lexicographical greatest psubstring. This
+  solution generates all psubstrings and picks the greatest
+  Time complexity: O(n*2^n)
+  Space complexity: O(2^n)
+  """
+  psubs = pseudo_substrings(str)
+  psubs.sort { |str1, str2| lexic_compare(str1, str2) }.last
+end
+
+def lexic_greatest_psubs_faster(str)
+  """
+  Time complexity: O(n^2)
+  Space complexity: O(n)
+  """
+  return "" if str.empty?
+  greatest = 0
+  str.split("").each_with_index do |letter,i|
+    greatest = i if letter > str[greatest]
+  end
+  str[greatest] + lexic_greatest_psubs_fast(str[greatest+1..-1])
+end
+
+def lexic_greatest_psubs_fastest(str)
+  """
+  Time complexity: O(n)
+  Space complexity: O(n)
+  """
+  psub = [str[-1]]
+
+  (str.length - 2).downto(0) do |i|
+    psub << str[i] if str[i] > psub.last  # O(1) amortized
+  end
+
+  psub.reverse.join
+end
 
 
 
