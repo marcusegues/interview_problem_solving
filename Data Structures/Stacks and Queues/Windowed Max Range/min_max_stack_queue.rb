@@ -2,6 +2,10 @@ require_relative "./min_max_stack.rb"
 require_relative "./stack_queue.rb"
 
 class MinMaxStackQueue < StackQueue
+  """
+  Queue implemented using Stacks. The stacks are MinMaxStacks, so the maximum
+  and minimum values in the Queue can be accessed in O(1)
+  """
   def initialize
     @in, @out = MinMaxStack.new, MinMaxStack.new
   end

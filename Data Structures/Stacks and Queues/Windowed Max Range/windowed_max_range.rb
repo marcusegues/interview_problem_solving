@@ -1,12 +1,20 @@
 require_relative "./min_max_stack_queue.rb"
 
 class WindowedMaxRange
+  """
+  Given an array, and a window size w, find the maximum max - min within a
+  range of w elements.
+  """
   def initialize(arr = [], window_size = [])
     @arr = arr
     @window_size = window_size
   end
 
-  def calculate
+  def calculate_max_range_in_window
+    """
+    Time complexity: O(n)
+    Space complexity: O(1)
+    """
     @q = MinMaxStackQueue.new
     @max_range = @q.range
     @arr.each do |el|

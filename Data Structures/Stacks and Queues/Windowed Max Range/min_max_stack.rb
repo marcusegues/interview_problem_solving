@@ -1,6 +1,6 @@
 class MinMaxStack
   """
-  Stack with a method max that returns the maximum value
+  Stack with a method max that returns the maximum and minimum values
   of the stack in O(1) time.
   """
   def initialize

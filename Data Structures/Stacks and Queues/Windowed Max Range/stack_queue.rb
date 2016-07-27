@@ -1,7 +1,7 @@
 class StackQueue
   """
-  Implement a queue using stacks.
-  Write enqueue and dequeue using only push and pop operations
+  Queue implemented using stacks
+  Enqueue and dequeue use only push and pop operations
   """
   def initialize
     @in, @out = [], []
