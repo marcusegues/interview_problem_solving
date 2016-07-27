@@ -377,6 +377,154 @@ def lexic_greatest_psubs_fastest(str)
   psub.reverse.join
 end
 
+def permutations(arr)
+  return [[]] if arr.empty?
+  p = []
+  arr.each_with_index do |el, i|
+    permutations(arr[0...i].concat(arr[i+1..-1])).each do |perm|
+      p << [el].concat(perm)
+    end
+  end
+  p
+end
+
+def cyclic?(link)
+  """
+  returns true if a list is cyclic
+  Time complexity: O(n)
+  Space complexity: O(n)
+  """
+  h = {}
+  h[link] = true
+
+  while link
+    link = link.next_node
+    return true if h[link]
+    h[link] = true
+  end
+  return false
+end
+
+def cyclic2(link)
+  """
+  returns true if a list is cyclic
+  Time complexity: O(n)
+  Space complexity: O(1)
+  """
+  slow_runner = link
+  fast_runner = link
+
+  loop do
+    2.times do
+      fast_runner = fast_runner.next_node
+      return false if fast_runner.nil?
+      return true if fast_runner = slow_runner
+    end
+    slow_runner = slow_runner.next_node
+  end
+end
+
+def list_length(list)
+  return 0 unless list
+  count = 1
+  until list.next_node.nil?
+    count += 1
+    list = list.next_node
+  end
+  count
+end
+
+def linked_list_convergence(list1, list2)
+  """
+  Given two singly-linked lists of (possibly) differing lengths that
+  converge at some point, finds the node at which they converge.
+  Time complexity: O(n) where n is the length of the longest input list
+  Space complexity: O(1)
+  """
+  l1, l2 = list1, list2
+  len1, len2 = list_length(list1), list_length(list2)
+  if len1 > len2
+    len_diff = len1 - len2
+    len_diff.times do
+      list1 = list1.next_node
+    end
+  else
+    len_diff = len2 - len1
+    len_diff.times do
+      list2 = list2.next_node
+    end
+  end
+  until list1.nil?
+    return list1 if list1 == list2
+    list1 = list1.next_node
+    list2 = list2.next_node
+  end
+  false
+end
+
+def next_largest(node)
+  return node.right.min if node.right
+  parent = node.parent
+  until node.parent.nil?
+    return node.parent if node == node.parent.left
+    node = node.parent
+  end
+  nil
+end
+
+def is_bst?(node, min = nil, max = nil)
+  return false if (node.left > node || node.right > node)
+  return false if (max && (node.left > max || node.right > max))
+  return false if (min && (node.left < max || node.right < min))
+  is_bst(node.left, max = node) && is_bst(node.right, min = node)
+end
+
+def rand5
+  rand(5)
+end
+
+def rand7
+  while true
+    num = 5*rand5 + rand5
+    return num % 7 if num < 21
+  end
+end
+
+def sqroot(num, candidates = nil)
+  """
+  binary search to calculate a numbers square root in less than linear time
+  also faster then O(sqrt(num)) which would be obtained by iterating from zero
+  up to the square root
+  """
+  candidates ||= (0..num/2).to_a
+  middle = candidates.length / 2
+  case num <=> (candidates[middle] * candidates[middle])
+  when -1
+    sqroot(num, candidates.take(middle))
+  when 0
+    middle
+  when 1
+    sub_answer = sqroot(num, candidates.drop(middle + 1))
+    sub_answer ? middle + sub_answer + 1 : nil
+  end
+end
+
+def binary_search(arr, value)
+  return nil if arr.length == 0
+  mid = arr.length/2
+
+  case value <=> arr[mid]
+  when 0
+    mid
+  when -1
+    binary_search(arr.take(mid), value)
+  when 1
+    found = binary_search(arr.drop(mid+1), value)
+    found ? mid + found + 1 : nil
+  end
+end
+
+
 
 
 
