@@ -1,7 +1,7 @@
 require_relative './my_static_array.rb'
 
 class MyQueue
-
+  attr_reader :tail, :head
   def initialize(length = 10)
     """
     Queue using a fixed size array
@@ -16,7 +16,7 @@ class MyQueue
   end
 
   def empty?
-    # O(1) 
+    # O(1)
     @tail == @head
   end
 

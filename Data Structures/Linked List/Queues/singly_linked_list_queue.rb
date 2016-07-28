@@ -1,12 +1,12 @@
-require_relative './../singly_linked_list.rb'
+require_relative './../NoSentinel/singly_linked_list.rb'
 
-class LinkedListQueue
+class SinglyLinkedListQueue
   def initialize
     @list = SinglyLinkedList.new
   end
 
   def enqueue(value)
-    @list.insert(value)
+    @list.insert_tail(value)
   end
 
   def empty?
@@ -14,8 +14,12 @@ class LinkedListQueue
   end
 
   def dequeue
-    raise "Queue underflow" if empty?
-    @list.delete(@list.tail.value)
+    return nil if empty?
+    @list.delete_head
+  end
+
+  def peek
+    @list.head
   end
 
   def print

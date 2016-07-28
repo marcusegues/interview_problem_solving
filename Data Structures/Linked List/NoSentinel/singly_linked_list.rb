@@ -306,6 +306,14 @@ class SinglyLinkedList
     delete_node_constant_time(delete_node, previous)
   end
 
+  def delete_head
+    return nil if @head.nil?
+    @tail = @tail.next_node if @tail == @head
+    deleted = @head
+    @head = @head.next_node
+    deleted
+  end
+
   def delete_node_constant_time(node, previous)
     """
     Time complexity: O(1) because we give previous node as input
