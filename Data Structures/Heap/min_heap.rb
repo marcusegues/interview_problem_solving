@@ -29,7 +29,6 @@ class MinHeap
   end
 
   def insert(value)
-    byebug
     if heap_size == heap_array.length
       heap_array << value + 1
     else
