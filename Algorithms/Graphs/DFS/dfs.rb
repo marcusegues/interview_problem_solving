@@ -1,4 +1,4 @@
-require './dfs_result.rb'
+require_relative './dfs_result.rb'
 
 def dfs(graph)
   r = DFSResult.new

@@ -1,4 +1,3 @@
-require 'byebug'
 class MinHeap
   attr_accessor :heap_array, :heap_size
 
@@ -19,6 +18,10 @@ class MinHeap
     2*i + 2
   end
 
+  def empty?
+    @heap_size == 0
+  end
+
   def decrease_key(i, value)
     return nil if heap_array[i] <= value
     heap_array[i] = value
@@ -28,13 +31,17 @@ class MinHeap
     end
   end
 
-  def insert(value)
+  def insert(obj)
     if heap_size == heap_array.length
-      heap_array << value + 1
+      heap_array << obj
     else
-      heap_array[heap_size] = value + 1
+      heap_array[heap_size] = obj
     end
-    decrease_key(heap_size, value)
+    i = @heap_size
+    while i > 0 && heap_array[parent(i)] > heap_array[i]
+      heap_array[parent(i)], heap_array[i] = heap_array[i], heap_array[parent(i)]
+      i = parent(i)
+    end
     @heap_size += 1
   end
 
@@ -47,22 +54,22 @@ class MinHeap
 
   def extract_min
     """
-    Time complexity: O(lg n), because of single call to max-heapify
+    Time complexity: O(lg n), because of single call to min-heapify
     Space complexity: O(1)
     """
     return nil if heap_size == 0
     min = minimum
     heap_array[0], heap_array[heap_size - 1] = heap_array[heap_size - 1], heap_array[0]
-    heap_size -= 1
+    @heap_size -= 1
     min_heapify(0)
     min
   end
 
   def heapsort
     build_min_heap
-    (heap_size - 1).downto(0) do |i|
+    (@heap_size - 1).downto(0) do |i|
       heap_array[i], heap_array[0] = heap_array[0], heap_array[i]
-      heap_size -= 1
+      @heap_size -= 1
       min_heapify(0)
     end
   end
@@ -80,7 +87,7 @@ class MinHeap
     calls to min_heapify with a low n, and as n increases, the number of calls goes down.
     Summing up the work gives us O(n).
     """
-    (heap_size/2 - 1).downto(0) do |i|
+    (@heap_size/2 - 1).downto(0) do |i|
       min_heapify(heap_array[i])
     end
   end
